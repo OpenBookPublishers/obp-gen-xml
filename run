@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+cd $(dirname $0)/XML-last
+
+echo "running XML-before-transformation.py"
+python2.7 XML-before-transformation.py
+
+echo "running Transform-to-XML-section.xsl"
+java -jar ../lib/saxon9he.jar -s:Transform-to-XML-section.xsl -xsl:Transform-to-XML-section.xsl -o:Transform-to-XML-section.xsl --suppressXsltNamespaceCheck:on
