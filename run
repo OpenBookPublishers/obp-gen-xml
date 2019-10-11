@@ -8,3 +8,11 @@ python2.7 XML-before-transformation.py
 
 echo "running Transform-to-XML-section.xsl"
 java -jar ../lib/saxon9he.jar -s:Transform-to-XML-section.xsl -xsl:Transform-to-XML-section.xsl -o:Transform-to-XML-section.xsl --suppressXsltNamespaceCheck:on
+
+# Create a zip archive of the XML edition
+find . -name '*.zip' | while read file; do
+    filename=$(basename -- ${file%.*})
+    zip -rq ${filename}.xml.zip XML-edition/
+
+    echo "created ./XML-edition/${filename}.xml.zip"
+done
