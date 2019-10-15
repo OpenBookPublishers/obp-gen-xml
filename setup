@@ -3,6 +3,15 @@
 set -e
 cd "$(dirname $0)"
 
+check_saxon() {
+    if ! [ -x "$(command -v saxonb-xslt)" ]; then
+	echo 'Error: saxonb-xslt is not installed.' >&2
+	exit 1
+    fi
+}
+
+check_saxon
+
 rm -rf XML-last
 
 git clone https://github.com/OpenBookPublishers/XML-last.git

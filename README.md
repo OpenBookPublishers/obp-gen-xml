@@ -5,7 +5,7 @@ Work in progress
 
 ## How to run this tool
 ### Setup
-Run `bash setup` to perform the setup.
+This wrapper requires `saxonb-xslt` to be installed on your system. On Debian (or Debian-based distributions) this package can be installed via `apt-get install libsaxonb-java`. After that, run `bash setup` to perform the setup.
 
 ### Conversion
 To start the conversion, place the **epub file** and the **DOI deposit** in the `../XML-last` folder; finally run `bash run`.

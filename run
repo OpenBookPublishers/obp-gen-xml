@@ -7,7 +7,7 @@ echo "running XML-before-transformation.py"
 python2.7 XML-before-transformation.py
 
 echo "running Transform-to-XML-section.xsl"
-java -jar ../lib/saxon9he.jar -s:Transform-to-XML-section.xsl -xsl:Transform-to-XML-section.xsl -o:Transform-to-XML-section.xsl --suppressXsltNamespaceCheck:on
+saxonb-xslt -s:Transform-to-XML-section.xsl -xsl:Transform-to-XML-section.xsl -o:Transform-to-XML-section.xsl -ext:on
 
 # Create a zip archive of the XML edition
 find . -name '*.zip' | while read file; do
