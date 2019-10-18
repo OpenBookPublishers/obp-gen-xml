@@ -1,6 +1,10 @@
 #!/bin/bash
 
 set -e
+
+cd $(dirname $0)
+source .venv/bin/activate
+
 cd $(dirname $0)/XML-last
 
 echo "running XML-before-transformation.py"
@@ -8,6 +12,15 @@ python2.7 XML-before-transformation.py
 
 echo "running Transform-to-XML-section.xsl"
 saxonb-xslt -s:Transform-to-XML-section.xsl -xsl:Transform-to-XML-section.xsl -o:Transform-to-XML-section.xsl -ext:on
+
+echo "creating Transform-to-XML-section_tailored.xsl"
+python3 ../tailor_book_transform.py
+
+echo "running Transform-to-XML-section_tailored.xsl"
+saxonb-xslt -s:Transform-to-XML-book_tailored.xsl -xsl:Transform-to-XML-book_tailored.xsl -xi:on -ext:on
+
+echo "running XML-after-transformation.py"
+python2.7 XML-after-transformation.py
 
 # Create a zip archive of the XML edition
 find . -name '*.zip' | while read file; do
