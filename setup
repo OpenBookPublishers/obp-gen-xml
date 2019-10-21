@@ -13,9 +13,7 @@ check () {
 check "saxonb-xslt"
 check "pyvenv-3.5"
 
-rm -rf XML-last
-
-git clone https://github.com/OpenBookPublishers/XML-last.git
+git submodule update --init
 
 pyvenv-3.5 .venv
 source .venv/bin/activate
