@@ -3,15 +3,20 @@
 set -e
 cd "$(dirname $0)"
 
-check_saxon() {
-    if ! [ -x "$(command -v saxonb-xslt)" ]; then
-	echo 'Error: saxonb-xslt is not installed.' >&2
+check () {
+    if ! [ -x "$(command -v $1)" ]; then
+	echo "Error: $1 is not installed." >&2
 	exit 1
     fi
 }
 
-check_saxon
+check "saxonb-xslt"
+check "pyvenv-3.5"
 
 rm -rf XML-last
 
 git clone https://github.com/OpenBookPublishers/XML-last.git
+
+pyvenv-3.5 .venv
+source .venv/bin/activate
+pip3 install beautifulsoup4
