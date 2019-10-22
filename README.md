@@ -6,10 +6,10 @@ Wrapper to produce the XML editions of OBP books.
 This wrapper requires `saxonb-xslt` and `pyvenv-3.5` to be installed on your system. On Debian (or Debian-based distributions) this package can be installed via `apt-get install libsaxonb-java pyvenv-3.5`. After that, run `bash setup` to perform the setup.
 
 ### Conversion
-To start the conversion, place the **epub file** and the **DOI deposit** in the `../XML-last` folder; finally run `bash run`.
+To start the conversion, place the **epub file** and the **DOI deposit** in the `./XML-last/` folder; finally run `bash run`.
 
 ### Clean-up
-Running `bash clean` would remove temporary files from `XML-last/` (untracked files and folders). The script asks for the user's confirmation before removing the files, but if you are running this as part of a script you might want to use the`-y` flag to bypass the confirmation. 
+Running `bash clean` would remove temporary files from `./XML-last/` (untracked files and folders). The script asks for the user's confirmation before removing the files, but if you are running this as part of a script you might want to use the`-y` flag to bypass the confirmation. 
 
 ## DEV
 This suite of scripts works as expected, but the introduction of `tailor_book_transform.py` is to be regarded as a _temporary patch_.

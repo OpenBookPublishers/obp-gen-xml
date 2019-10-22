@@ -27,5 +27,5 @@ find . -name '*.zip' | while read file; do
     filename=$(basename -- ${file%.*})
     zip -rq ${filename}.xml.zip XML-edition/
 
-    echo "created ./XML-edition/${filename}.xml.zip"
+    echo "created ./XML-last/${filename}.xml.zip"
 done
