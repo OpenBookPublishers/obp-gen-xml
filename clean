@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -16,7 +16,7 @@ function clean {
     git clean -df
 }
 
-cd $(dirname $0)/XML-last
+cd $(dirname $0)
 
 if [ "$FORCE_YES" = 1 ]
 then
@@ -31,5 +31,3 @@ else
 	clean
     fi
 fi
-
-
