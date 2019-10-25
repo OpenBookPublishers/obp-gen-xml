@@ -2,6 +2,8 @@
 
 set -e
 
+book_name=$1
+
 cleanup () {
     local rv=$?
     rm -rf -- "$work_dir"
@@ -46,9 +48,8 @@ convert () {
 work_dir=$(mktemp -d -t obp-gen-xml-XXXXXX)
 
 echo "Copy relevant files to work directory"
-# We need to revise the way how these files get picked up
-cp *.epub $work_dir
-cp *.xml $work_dir
+cp ${book_name}.epub $work_dir
+cp ${book_name}.xml $work_dir
 cp tailor_book_transform.py $work_dir
 cp -r XML-last/. $work_dir
 
@@ -57,4 +58,4 @@ source .venv/bin/activate
 
 (convert)
 
-cp $work_dir/*.xml.zip .
+cp $work_dir/${book_name}.xml.zip .

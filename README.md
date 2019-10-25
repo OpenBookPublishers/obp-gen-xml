@@ -16,7 +16,9 @@ The setup contains the necessary instruction to initialise the submodule.
 ### Conversion
 To start the conversion, place the **epub file** and the **DOI deposit** in the _obp-gen-xml_ folder. Finally, run:
 
-`bash run`
+`bash run prefix`
+
+where _prefix_ is the name of the book and the DOI deposit files; i.e.: `bash run Siklos-Advanced_Problems2`.
 
 ### Clean-up
 
@@ -33,6 +35,3 @@ The stylesheet `Transform-to-XML-book.xsl` merges together XML files of the book
 `tailor_book_transform.py` creates a temporary and simplified version of `Transform-to-XML-book.xsl` which lists only the successful includes.
 
 There are a number of possible solutions, including (a) forcing `saxonb-xslt` to use a different XML parser and (b) re-write the `Transform-to-XML-book.xsl` to make its list of includes more precise.
-
-### run
-The way the _run_ script picks up files to process is not very precise (currently, via wildcards/asterisks). We might want to improve this in the future; solutions include (a) defining naming conventions for input files across all our scripts and (b) make bash to accept filenames as input arguments.
