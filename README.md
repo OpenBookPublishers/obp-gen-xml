@@ -3,9 +3,9 @@ Wrapper to produce the XML editions of OBP books.
 
 ## How to run this tool
 ### Setup
-This wrapper requires `saxonb-xslt` and `pyvenv-3.5` to be installed on your system. On Debian (or Debian-based distributions) this package can be installed via
+This wrapper requires `saxonb-xslt` and `python3-bs4` to be installed on your system. On Debian (or Debian-based distributions) this package can be installed via
 
-`apt-get install libsaxonb-java pyvenv-3.5`
+`apt-get install libsaxonb-java python3-bs4`
 
 To perform the setup, run:
 

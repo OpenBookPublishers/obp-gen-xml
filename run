@@ -1,8 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -e
+set -eu
+cd $(dirname $0)
 
 book_name=$1
+work_dir=$(mktemp -d -t obp-gen-xml-XXXXXX)
 
 cleanup () {
     local rv=$?
@@ -45,16 +47,12 @@ convert () {
     done
 }
 
-work_dir=$(mktemp -d -t obp-gen-xml-XXXXXX)
 
 echo "Copy relevant files to work directory"
 cp ${book_name}.epub $work_dir
 cp ${book_name}.xml $work_dir
 cp tailor_book_transform.py $work_dir
 cp -r XML-last/. $work_dir
-
-cd $(dirname $0)
-source .venv/bin/activate
 
 (convert)
 
