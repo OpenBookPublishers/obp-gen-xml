@@ -52,9 +52,15 @@ echo "Copy relevant files to work directory"
 cp ${book_name}.epub $work_dir
 cp ${book_name}.xml $work_dir
 cp tailor_book_transform.py $work_dir
-cp -r XML-last/. $work_dir
+#cp -r XML-last/. $work_dir
 
 xref_schema=`python3 src/extract_schema_version.py "$book_name".xml`
+
+mkdir $work_dir/XML-last/
+python3 src/tailor_section_transformation.py \
+	    XML-last/Transform-to-XML-section.xsl \
+	    $work_dir/XML-last/Transform-to-XML-section_tailored.xsl \
+	    --version $xref_schema
 
 (convert)
 
