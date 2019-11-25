@@ -15,21 +15,31 @@ cleanup () {
 trap cleanup EXIT
 
 convert () {
+    # Run the python script and XSL file of the XML-last repo
     cd $work_dir
 
+    xref_schema=`python3 src/extract_schema_version.py "$book_name".xml`
+    
     echo "running XML-before-transformation.py"
     python2.7 XML-before-transformation.py
 
-    echo "running Transform-to-XML-section.xsl"
-    saxonb-xslt -s:Transform-to-XML-section.xsl \
-		-xsl:Transform-to-XML-section.xsl \
-		-o:Transform-to-XML-section.xsl \
+    echo "running Transform-to-XML-section_tailored.xsl"
+    python3 src/tailor_section_transformation.py \
+	       Transform-to-XML-section.xsl \
+	       Transform-to-XML-section_tailored.xsl \
+	       --version $xref_schema
+    
+    saxonb-xslt -s:Transform-to-XML-section_tailored.xsl \
+		-xsl:Transform-to-XML-section_tailored.xsl \
+		-o:Transform-to-XML-section_tailored.xsl \
 		-ext:on
 
-    echo "creating Transform-to-XML-section_tailored.xsl"
-    python3 tailor_book_transform.py
+    echo "running Transform-to-XML-book_tailored.xsl"
+    python3 src/tailor_book_transformation.py \
+	       Transform-to-XML-book.xsl \
+	       Transform-to-XML-book_tailored.xsl \
+	       --version $xref_schema
 
-    echo "running Transform-to-XML-section_tailored.xsl"
     saxonb-xslt -s:Transform-to-XML-book_tailored.xsl \
 		-xsl:Transform-to-XML-book_tailored.xsl \
 		-xi:on \
@@ -51,8 +61,8 @@ convert () {
 echo "Copy relevant files to work directory"
 cp ${book_name}.epub $work_dir
 cp ${book_name}.xml $work_dir
-cp tailor_book_transform.py $work_dir
 cp -r XML-last/. $work_dir
+cp -r src/ $work_dir
 
 (convert)
 
