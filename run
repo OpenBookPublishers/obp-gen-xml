@@ -35,7 +35,7 @@ convert () {
 		-ext:on
 
     echo "running Transform-to-XML-book_tailored.xsl"
-    python3 src/tailor_book_transform.py \
+    python3 src/tailor_book_transformation.py \
 	       Transform-to-XML-book.xsl \
 	       Transform-to-XML-book_tailored.xsl \
 	       --version $xref_schema
@@ -67,4 +67,3 @@ cp -r src/ $work_dir
 (convert)
 
 cp $work_dir/${book_name}.xml.zip .
-cp -r $work_dir /dev/shm/
