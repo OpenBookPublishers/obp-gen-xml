@@ -1,6 +1,19 @@
 from bs4 import BeautifulSoup
 import os
 import argparse
+from urllib.parse import urljoin
+
+def replace_version(soup, schema_version):
+    """
+    Find the schema URL in the xsl file and replace the version with
+    the one supplied to the function.
+    """
+    xsl_schema = soup.find('xsl:stylesheet')['xmlns:doi']
+    doi_schema = urljoin(xsl_schema, schema_version)
+
+    soup.find('xsl:stylesheet')['xmlns:doi'] = doi_schema
+
+    return soup
 
 def refine_includes(file_path):
     """
@@ -26,14 +39,18 @@ def run():
     desc='Tailor Section Transformation'
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument('input_file',
-                        help = 'Input section transformation xsl file')
+                        help = 'Input book-transformation xsl file')
     parser.add_argument('output_file',
-                        help = 'Output section transformation xsl file')
-
+                        help = 'Output book-transformation xsl file')
+    parser.add_argument('-v', '--version',
+		        help = 'CrossRef schema version',
+		        required = True)
+    
     args = parser.parse_args()
 
-    soup = refine_includes(args.input_file)
-    write_output(args.output_file, soup)
+    soup_includes = refine_includes(args.input_file)
+    soup_version = replace_version(soup_includes, args.version)
+    write_output(args.output_file, soup_version)
 
 
 if __name__ == "__main__":
