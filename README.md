@@ -27,7 +27,7 @@ where _prefix_ is the name of the book and the DOI deposit files; i.e.: `bash ru
 would remove temporary files (untracked files and folders) from the _obp-gen-xml_ folder. The script asks for the user's confirmation before removing the files, but if you are running this as part of a script you might want to use the`-y` flag to bypass the confirmation. 
 
 ## DEV
-### tailor_book_transform.py
+### ./src/tailor_book_transformation.py
 This suite of scripts works as expected, but the introduction of `tailor_book_transform.py` is to be regarded as a _temporary patch_.
 
 The stylesheet `Transform-to-XML-book.xsl` merges together XML files of the book sections. This is performed by tentative _includes_ of possible filenames hardcoded in the spreadsheet. All this works smoothly with the XML parser embedded in Oxygen, but the (apparently less tolerant) XML parser that `saxonb-xslt` uses fails at the first occurrence of a missing file.
@@ -35,3 +35,10 @@ The stylesheet `Transform-to-XML-book.xsl` merges together XML files of the book
 `tailor_book_transform.py` creates a temporary and simplified version of `Transform-to-XML-book.xsl` which lists only the successful includes.
 
 There are a number of possible solutions, including (a) forcing `saxonb-xslt` to use a different XML parser and (b) re-write the `Transform-to-XML-book.xsl` to make its list of includes more precise.
+
+### Crossref schema version
+The suite of XSL files stored in `XML-last` fail if the Crossref schema version declared in the DOI deposit does not correspond with the one hardcoded in the stylesheets.
+
+Since the version of our DOI deposit changed over the time, we need a resilient system able to process the all the deposits. The small collection of scripts stored in `./src.` serve for this purpose:
+ -  `./src/extract_schema_version.py` reads the schema version declared in the DOI deposit;
+ -  `./src/tailor_book_transformation.py` and `./src/tailor_section_transformation.py` produces compatible variations of the stylesheets. Please, note that `./src/tailor_book_transformation.py` has extra instructions described in this DEV section of the readme file.
