@@ -1,2 +1,6 @@
+output/
+*.xml
+*.epub
+*.zip
 .venv
 *~
