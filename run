@@ -5,6 +5,7 @@ cd $(dirname $0)
 
 book_name=$1
 work_dir=$(mktemp -d -t obp-gen-xml-XXXXXX)
+out_dir="${OUTDIR:-./}"
 
 cleanup () {
     local rv=$?
@@ -21,7 +22,7 @@ convert () {
     xref_schema=`python3 src/extract_schema_version.py "$book_name".xml`
     
     echo "running XML-before-transformation.py"
-    python2.7 XML-before-transformation.py
+    python3 XML-before-transformation.py
 
     echo "running Transform-to-XML-section_tailored.xsl"
     python3 src/tailor_section_transformation.py \
@@ -46,7 +47,7 @@ convert () {
 		-ext:on
 
     echo "running XML-after-transformation.py"
-    python2.7 XML-after-transformation.py
+    python3 XML-after-transformation.py
 
     # Create a zip archive of the XML edition
     find . -name '*.zip' | while read file; do
@@ -66,4 +67,4 @@ cp -r src/ $work_dir
 
 (convert)
 
-cp $work_dir/${book_name}.xml.zip .
+cp $work_dir/${book_name}.xml.zip $out_dir/.
