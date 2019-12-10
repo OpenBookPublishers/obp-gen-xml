@@ -1,7 +1,8 @@
-from bs4 import BeautifulSoup
 import os
 import argparse
 from urllib.parse import urljoin
+from bs4 import BeautifulSoup
+
 
 def replace_version(soup, schema_version):
     """
@@ -15,10 +16,11 @@ def replace_version(soup, schema_version):
 
     return soup
 
+
 def refine_includes(file_path):
     """
     Parse all the include statements in the xsl file.
-    Leave in place the successful ones, discard the ones 
+    Leave in place the successful ones, discard the ones
     which would fail.
     """
     with open(file_path, 'r') as in_file:
@@ -31,21 +33,23 @@ def refine_includes(file_path):
 
         return soup
 
+
 def write_output(file_path, soup):
     with open(file_path, 'w+') as out_file:
         out_file.write(soup.prettify(formatter='minimal'))
 
+
 def run():
-    desc='Tailor Section Transformation'
+    desc = 'Tailor Section Transformation'
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument('input_file',
-                        help = 'Input book-transformation xsl file')
+                        help='Input book-transformation xsl file')
     parser.add_argument('output_file',
-                        help = 'Output book-transformation xsl file')
+                        help='Output book-transformation xsl file')
     parser.add_argument('-v', '--version',
-		        help = 'CrossRef schema version',
-		        required = True)
-    
+                        help='CrossRef schema version',
+                        required=True)
+
     args = parser.parse_args()
 
     soup_includes = refine_includes(args.input_file)

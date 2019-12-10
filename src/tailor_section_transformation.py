@@ -2,6 +2,7 @@ import argparse
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
+
 def replace_version(file_path, schema_version):
     """
     Find the schema URL in the xsl file and replace the version with
@@ -17,20 +18,22 @@ def replace_version(file_path, schema_version):
 
         return soup
 
+
 def write_output(file_path, soup):
     with open(file_path, 'w+') as out_file:
         out_file.write(soup.prettify(formatter='minimal'))
 
+
 def run():
-    desc='Tailor Section Transformation'
+    desc = 'Tailor Section Transformation'
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument('input_file',
-                        help = 'Input section transformation xsl file')
+                        help='Input section transformation xsl file')
     parser.add_argument('output_file',
-                        help = 'Output section transformation xsl file')
+                        help='Output section transformation xsl file')
     parser.add_argument('-v', '--version',
-		        help = 'CrossRef schema version',
-		        required = True)
+                        help='CrossRef schema version',
+                        required=True)
 
     args = parser.parse_args()
 
