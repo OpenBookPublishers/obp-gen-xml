@@ -1,6 +1,6 @@
 FROM python:3.8.0-slim-buster
 
-ENV XML_LAST_VERSION=0.0.1
+ENV XML_LAST_VERSION=0.0.2
 
 WORKDIR /ebook_automation
 
