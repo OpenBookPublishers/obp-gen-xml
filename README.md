@@ -7,7 +7,6 @@ docker run --rm \
   -v /path/to/local.epub:/ebook_automation/epub_file.epub \
   -v /path/to/local.xml:/ebook_automation/epub_file.xml \
   -v /path/to/output:/ebook_automation/output \
-  -e OUTDIR=/ebook_automation/output \
   openbookpublishers/obp-gen-xml
 ```
 
