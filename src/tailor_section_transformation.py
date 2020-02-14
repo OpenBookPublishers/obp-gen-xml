@@ -1,27 +1,22 @@
 import argparse
-from urllib.parse import urljoin
-from bs4 import BeautifulSoup
-
+from string import Template
 
 def replace_version(file_path, schema_version):
     """
-    Find the schema URL in the xsl file and replace the version with
+    Replace the schema version in the file template with
     the one supplied to the function.
     """
     with open(file_path, 'r') as in_file:
-        soup = BeautifulSoup(in_file, 'html.parser')
+        template = Template(in_file.read())
 
-        xsl_schema = soup.find('xsl:stylesheet')['xmlns:doi']
-        doi_schema = urljoin(xsl_schema, schema_version)
+        metadata = {'schema_version': schema_version}
 
-        soup.find('xsl:stylesheet')['xmlns:doi'] = doi_schema
-
-        return soup
+        return template.safe_substitute(metadata)
 
 
-def write_output(file_path, soup):
+def write_output(file_path, process_xslt):
     with open(file_path, 'w+') as out_file:
-        out_file.write(soup.prettify(formatter='minimal'))
+        out_file.write(process_xslt)
 
 
 def run():
@@ -37,8 +32,8 @@ def run():
 
     args = parser.parse_args()
 
-    soup = replace_version(args.input_file, args.version)
-    write_output(args.output_file, soup)
+    process_xslt = replace_version(args.input_file, args.version)
+    write_output(args.output_file, process_xslt)
 
 
 if __name__ == "__main__":

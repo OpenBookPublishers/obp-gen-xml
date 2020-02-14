@@ -26,7 +26,7 @@ convert () {
 
     echo "running Transform-to-XML-section_tailored.xsl"
     python3 src/tailor_section_transformation.py \
-	       Transform-to-XML-section.xsl \
+	       Transform-to-XML-section.template \
 	       Transform-to-XML-section_tailored.xsl \
 	       --version $xref_schema
     
@@ -62,7 +62,7 @@ convert () {
 echo "Copy relevant files to work directory"
 cp ${book_name}.epub $work_dir
 cp ${book_name}.xml $work_dir
-cp -r XML-last/. $work_dir
+cp -r xslt/. $work_dir
 cp -r src/ $work_dir
 
 (convert)
