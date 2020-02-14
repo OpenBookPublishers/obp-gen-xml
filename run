@@ -25,8 +25,8 @@ convert () {
     python3 XML-before-transformation.py
 
     echo "running Transform-to-XML-section_tailored.xsl"
-    python3 src/tailor_section_transformation.py \
-	       Transform-to-XML-section.xsl \
+    python3 src/tailor_xslt.py \
+	       Transform-to-XML-section.template \
 	       Transform-to-XML-section_tailored.xsl \
 	       --version $xref_schema
     
@@ -36,10 +36,11 @@ convert () {
 		-ext:on
 
     echo "running Transform-to-XML-book_tailored.xsl"
-    python3 src/tailor_book_transformation.py \
-	       Transform-to-XML-book.xsl \
+    python3 src/tailor_xslt.py \
+	       Transform-to-XML-book.template \
 	       Transform-to-XML-book_tailored.xsl \
-	       --version $xref_schema
+	       --version $xref_schema \
+	       --include_file filename_includes
 
     saxonb-xslt -s:Transform-to-XML-book_tailored.xsl \
 		-xsl:Transform-to-XML-book_tailored.xsl \
@@ -62,9 +63,15 @@ convert () {
 echo "Copy relevant files to work directory"
 cp ${book_name}.epub $work_dir
 cp ${book_name}.xml $work_dir
-cp -r XML-last/. $work_dir
+cp -r xslt/. $work_dir
 cp -r src/ $work_dir
 
 (convert)
 
 cp $work_dir/${book_name}.xml.zip $out_dir/.
+
+# Validate entire-book.xml and produce a report
+xmllint --schema $work_dir/schemas/tei_simplePrint_OBP_custom.xsd \
+	--noout \
+	$work_dir/XML-edition/entire-book.xml \
+	2> $out_dir/entire-book.log

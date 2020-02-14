@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
+    xmlns="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:doi="http://www.crossref.org/schema/${schema_version}"
+    xmlns:ai="http://www.crossref.org/AccessIndicators.xsd">
+    <xsl:output method="xml" indent="yes"/>
+    <xsl:strip-space elements="*"/>
+    <!-- Create a XML output file for each XHTML input file and set its overall structure -->
+    <xsl:template match="/">
+        <xsl:result-document href="XML-edition/entire-book.xml" method="xml">
+            <teiCorpus>
+                <teiHeader>
+                    <fileDesc>
+                        <titleStmt>
+                            <title type="main">
+                                <xsl:value-of
+                                    select="doc('doi-deposit.xml')/descendant::doi:book_metadata/descendant::doi:title"
+                                />
+                            </title>
+                            <xsl:for-each
+                                select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:contributors/doi:person_name">
+                                <xsl:choose>
+                                    <xsl:when test="contains(@contributor_role, 'author')">
+                                        <author>
+                                            <xsl:apply-templates select="./doi:given_name"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:apply-templates select="./doi:surname"/>
+                                        </author>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <editor>
+                                            <xsl:apply-templates select="./doi:given_name"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:apply-templates select="./doi:surname"/>
+                                        </editor>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:for-each>
+                        </titleStmt>
+                        <!--<editionStmt>
+                        <edition n="1">
+                        </edition>
+                    </editionStmt>-->
+                        <publicationStmt>
+                            <publisher><xsl:apply-templates select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:publisher/doi:publisher_name"/></publisher>
+                            <date>
+                                <xsl:value-of
+                                    select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:publication_date/doi:year"/>
+                                <xsl:text>-</xsl:text>
+                                <xsl:value-of
+                                    select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:publication_date/doi:month"
+                                />
+                            </date>
+                            <availability>
+                                <licence>
+                                    <xsl:value-of
+                                        select="doc('doi-deposit.xml')/descendant::doi:book_metadata/ai:program/ai:license_ref"
+                                    />
+                                </licence>
+                                <p>This licence applies to the content that follows, unless otherwise stated. Images, quotations and embedded objects are not covered by this licence. <!--Their copyright status is specified below.--></p>
+                            </availability>
+                            <idno type="DOI">
+                                <xsl:value-of
+                                    select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:doi_data/doi:doi"
+                                />
+                            </idno>
+                            <xsl:for-each
+                                select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:isbn">
+                                <idno type="ISBN">
+                                    <xsl:apply-templates select="."/>
+                                </idno>
+                            </xsl:for-each>
+                            <idno type="URI">
+                                <xsl:value-of
+                                    select="doc('doi-deposit.xml')/descendant::doi:book_metadata/doi:doi_data/doi:resource"
+                                />
+                            </idno>
+                        </publicationStmt>
+                        <!--<seriesStmt>
+                        <title> Title of the Series </title>
+                        <biblScope unit="volume"> Volume n. </biblScope>
+                        <idno type="ISSNPrint"> ISSN Print </idno>
+                        <idno type="ISSNOnline"> ISSN Digital </idno>
+                    </seriesStmt>-->
+                        <sourceDesc>
+                            <p>This is original content, published in Open Access.</p>
+                        </sourceDesc>
+                    </fileDesc>
+                  </teiHeader>
+		  ${book_contents}
+            </teiCorpus>
+        </xsl:result-document>
+    </xsl:template>
+</xsl:stylesheet>
