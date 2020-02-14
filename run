@@ -25,7 +25,7 @@ convert () {
     python3 XML-before-transformation.py
 
     echo "running Transform-to-XML-section_tailored.xsl"
-    python3 src/tailor_section_transformation.py \
+    python3 src/tailor_xslt.py \
 	       Transform-to-XML-section.template \
 	       Transform-to-XML-section_tailored.xsl \
 	       --version $xref_schema
@@ -36,8 +36,8 @@ convert () {
 		-ext:on
 
     echo "running Transform-to-XML-book_tailored.xsl"
-    python3 src/tailor_book_transformation.py \
-	       Transform-to-XML-book.xsl \
+    python3 src/tailor_xslt.py \
+	       Transform-to-XML-book.template \
 	       Transform-to-XML-book_tailored.xsl \
 	       --version $xref_schema
 
