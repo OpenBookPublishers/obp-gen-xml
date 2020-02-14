@@ -39,7 +39,8 @@ convert () {
     python3 src/tailor_xslt.py \
 	       Transform-to-XML-book.template \
 	       Transform-to-XML-book_tailored.xsl \
-	       --version $xref_schema
+	       --version $xref_schema \
+	       --include_file filename_includes
 
     saxonb-xslt -s:Transform-to-XML-book_tailored.xsl \
 		-xsl:Transform-to-XML-book_tailored.xsl \
