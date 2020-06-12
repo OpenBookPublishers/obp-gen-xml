@@ -71,7 +71,7 @@ cp -r src/ $work_dir
 cp $work_dir/${book_name}.xml.zip $out_dir/.
 
 # Validate entire-book.xml and produce a report
-xmllint --schema $work_dir/schemas/tei_simplePrint_OBP_custom.xsd \
-	--noout \
-	$work_dir/XML-edition/entire-book.xml \
-	2> $out_dir/entire-book.log
+#xmllint --schema $work_dir/schemas/tei_simplePrint_OBP_custom.xsd \
+#	--noout \
+#	$work_dir/XML-edition/entire-book.xml \
+#	2> $out_dir/entire-book.log
